@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tres en Raya</title>
+</head>
+<body>
+    <h1>Tres en Raya</h1>
+    <p>Tablero con coordenadas (1-9):</p>
+    <pre>
+      1 | 2 | 3
+      ---------
+      4 | 5 | 6
+      ---------
+      7 | 8 | 9
+    </pre>
+
+    <script>
+        // Crear el tablero vacío (3x3)
+        let tablero = [
+            ["", "", ""],
+            ["", "", ""],
+            ["", "", ""]
+        ];
+
+        // Controlamos el jugador X o O
+        let turno = "X";
+
+        // Mostramos el tablero
+        function mostrarTablero() {
+            console.log(tablero[0]);
+            console.log("---------");
+            console.log(tablero[1]);
+            console.log("---------");
+            console.log(tablero[2]);
+        }
+
+        // Función que convierte la entrada del usuario (1-9) a coordenadas de array
+        function obtenerCoordenadas(casilla) {
+            switch (casilla) {
+                case 1: return [0, 0]; //Fila 0 columna 1
+                case 2: return [0, 1]; //Fila 0 columna 2
+                case 3: return [0, 2];
+                case 4: return [1, 0];
+                case 5: return [1, 1];
+                case 6: return [1, 2];
+                case 7: return [2, 0];
+                case 8: return [2, 1];
+                case 9: return [2, 2];
+                default: return null;
+            }
+        }
+
+        // Función para verificar si un jugador ha ganado
+        function hayGanador() {
+            // Verificar filas, columnas y diagonales
+            for (let i = 0; i < 3; i++) {
+                // Comprobar si hay una fila completa con el mismo símbolo (X o O)
+                if (tablero[i][0] === turno && tablero[i][1] === turno && tablero[i][2] === turno) {
+                    return true; // Si se cumple, el jugador actual ha ganado
+                }
+
+                // Comprobar si hay una columna completa con el mismo símbolo (X o O)
+                if (tablero[0][i] === turno && tablero[1][i] === turno && tablero[2][i] === turno) {
+                    return true; // Si se cumple, el jugador actual ha ganado
+                }
+            }
+
+            // Comprobar la diagonal principal (desde arriba izquierda hasta abajo derecha)
+            if (tablero[0][0] === turno && tablero[1][1] === turno && tablero[2][2] === turno) {
+                return true; // Si se cumple, el jugador actual ha ganado
+            }
+
+            // Comprobar la diagonal secundaria (desde arriba derecha hasta abajo izquierda)
+            if (tablero[0][2] === turno && tablero[1][1] === turno && tablero[2][0] === turno) {
+                return true; // Si se cumple, el jugador actual ha ganado
+            }
+
+            return false; // Si no se cumplen las condiciones anteriores, no hay ganador aún
+        }       
+
+        // Función para verificar si el tablero está lleno
+        function tableroLleno() {
+            for (let i = 0; i < tablero.length; i++) {
+                for (let j = 0; j < tablero[i].length; j++) {
+                    if (tablero[i][j] === "") {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        // Función principal que controla el flujo del juego
+        function jugar() {
+            let juegoTerminado = false;
+            
+            while (!juegoTerminado) {
+                mostrarTablero();
+                let casilla = parseInt(prompt(`Turno de ${turno}. Elige una casilla (1-9):`));//Como prompt devuelve un string, lo pasamos a entero
+                let coordenadas = obtenerCoordenadas(casilla);
+                
+                if (coordenadas && tablero[coordenadas[0]][coordenadas[1]] === "") { //Si la casilla esta vacia, colocamos una X o O dependiendo de quien tenga el turno
+                    // Colocar la ficha en el tablero
+                    tablero[coordenadas[0]][coordenadas[1]] = turno;
+
+                    // Comprobar si hay un ganador
+                    if (hayGanador()) {
+                        mostrarTablero();
+                        alert(`¡Jugador ${turno} ha ganado!`);
+                        juegoTerminado = true;
+                    } else if (tableroLleno()) {
+                        mostrarTablero();
+                        alert("¡Es un empate!");
+                        juegoTerminado = true;
+                    } else {
+                        // Cambiar el turno entre X o O (Si turno es igual a X significa que el siguiente turno es para O)
+                        if (turno === "X")  {
+                            turno = "O";
+                        }else
+                        turno = "X"
+                    }
+                } else {
+                    alert("Casilla no válida o ya ocupada. Elige otra.");
+                }
+            }
+        }
+
+        // Iniciar el juego
+        jugar();
+    </script>
+</body>
+</html>

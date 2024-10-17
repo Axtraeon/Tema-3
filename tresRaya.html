@@ -29,11 +29,7 @@
 
         // Mostramos el tablero
         function mostrarTablero() {
-            console.log(tablero[0]);
-            console.log("---------");
-            console.log(tablero[1]);
-            console.log("---------");
-            console.log(tablero[2]);
+            alert(tablero[0].join(" | ") + "\n" + tablero[1].join(" | ") + "\n" + tablero[2].join(" | "))
         }
 
         // Función que convierte la entrada del usuario (1-9) a coordenadas de array
@@ -97,7 +93,7 @@
             let juegoTerminado = false;
             
             while (!juegoTerminado) {
-                mostrarTablero();
+                mostrarTablero()
                 let casilla = parseInt(prompt(`Turno de ${turno}. Elige una casilla (1-9):`));//Como prompt devuelve un string, lo pasamos a entero
                 let coordenadas = obtenerCoordenadas(casilla);
                 
@@ -107,11 +103,11 @@
 
                     // Comprobar si hay un ganador
                     if (hayGanador()) {
-                        mostrarTablero();
+                        mostrarTablero()
                         alert(`¡Jugador ${turno} ha ganado!`);
                         juegoTerminado = true;
                     } else if (tableroLleno()) {
-                        mostrarTablero();
+                        mostrarTablero()
                         alert("¡Es un empate!");
                         juegoTerminado = true;
                     } else {
